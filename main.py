@@ -270,6 +270,7 @@ class TasksManager:
         if not self.running2:
             self.running2 = True
             self.time_update2()
+            self.handle_good_bad_time(True)
             save_action_to_log(str(tasks[1][0]) + '; ' + tasks[1][2], '--任务开始')
 
     def stop2(self):
@@ -280,6 +281,7 @@ class TasksManager:
             tasks[1] = list(tasks[1])
             insert_item(tasks[1][0], '0', tasks[1][5], 0)
             save_action_to_log(str(tasks[1][0]) + '; ' + tasks[1][2], '--任务停止')
+            self.handle_good_bad_time(False)
 
     def delete2(self):
         global tasks
@@ -303,6 +305,7 @@ class TasksManager:
         if not self.running3:
             self.running3 = True
             self.time_update3()
+            self.handle_good_bad_time(True)
             save_action_to_log(str(tasks[2][0]) + '; ' + tasks[2][2], '--任务开始')
 
     def stop3(self):
@@ -313,6 +316,7 @@ class TasksManager:
             tasks[2] = list(tasks[2])
             insert_item(tasks[2][0], '0', tasks[2][5], 0)
             save_action_to_log(str(tasks[2][0]) + '; ' + tasks[2][2], '--任务停止')
+            self.handle_good_bad_time(False)
 
     def delete3(self):
         global tasks
@@ -336,6 +340,7 @@ class TasksManager:
         if not self.running4:
             self.running4 = True
             self.time_update4()
+            self.handle_good_bad_time(True)
             save_action_to_log(str(tasks[3][0]) + '; ' + tasks[3][2], '--任务开始')
 
     def stop4(self):
@@ -346,6 +351,7 @@ class TasksManager:
             tasks[3] = list(tasks[3])
             insert_item(tasks[3][0], '0', tasks[3][5], 0)
             save_action_to_log(str(tasks[3][0]) + '; ' + tasks[3][2], '--任务停止')
+            self.handle_good_bad_time(False)
 
     def delete4(self):
         global tasks
