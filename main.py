@@ -21,6 +21,8 @@ class TasksManager:
         self.running2 = False
         self.running3 = False
         self.running4 = False
+        self.running5 = False
+        self.running6 = False
         self.dt_good_flag = True
         self.dt_bad_flag = False
         self.good_time = 0
@@ -73,10 +75,14 @@ class TasksManager:
         label_task2 = Label(task_frame, text='任务2:',width = 8,height=2)
         label_task3 = Label(task_frame, text='任务3:',width = 8,height=2)
         label_task4 = Label(task_frame, text='任务4:',width = 8,height=2)
+        label_task5 = Label(task_frame, text='任务5:',width = 8,height=2)
+        label_task6 = Label(task_frame, text='任务6:',width = 8,height=2)
         label_task1.grid(row=0, column=0)
         label_task2.grid(row=1, column=0)
         label_task3.grid(row=2, column=0)
         label_task4.grid(row=3, column=0)
+        label_task5.grid(row=4, column=0)
+        label_task6.grid(row=5, column=0)
 
         self.st1 = StringVar()
         self.t1 = StringVar()
@@ -126,6 +132,30 @@ class TasksManager:
         self.entry_t4 = ttk.Entry(task_frame,textvariable=self.t4,width=20,font=('Helvetica',20,'bold'),foreground='blue')
         self.entry_t4.grid(row=3,column=3)
 
+        self.st5 = StringVar()
+        self.t5 = StringVar()
+        if current_tasks_num_to_do > 4:
+            self.st5.set(tasks[4][2])
+            self.t5.set(self.seconds_to_strshow(tasks[4][5]))
+        self.entry_task5 = ttk.Entry(task_frame,textvariable=self.st5,width=30,font=('Helvetica',20,'bold'),foreground='green')
+        self.entry_task5.grid(row=4,column=1)
+        label_t5 = Label(task_frame, text='耗时:', width=8, height=2)
+        label_t5.grid(row=4,column=2)
+        self.entry_t5 = ttk.Entry(task_frame,textvariable=self.t5,width=20,font=('Helvetica',20,'bold'),foreground='blue')
+        self.entry_t5.grid(row=4,column=3)
+
+        self.st6 = StringVar()
+        self.t6 = StringVar()
+        if current_tasks_num_to_do > 5:
+            self.st6.set(tasks[5][2])
+            self.t6.set(self.seconds_to_strshow(tasks[5][5]))
+        self.entry_task6 = ttk.Entry(task_frame,textvariable=self.st6,width=30,font=('Helvetica',20,'bold'),foreground='green')
+        self.entry_task6.grid(row=5,column=1)
+        label_t6 = Label(task_frame, text='耗时:', width=8, height=2)
+        label_t6.grid(row=5,column=2)
+        self.entry_t6 = ttk.Entry(task_frame,textvariable=self.t6,width=20,font=('Helvetica',20,'bold'),foreground='blue')
+        self.entry_t6.grid(row=5,column=3)
+
         buttont11 = ttk.Button(task_frame,text='start',command=self.start1)
         buttont11.grid(row=0,column=4)
         buttont12 = ttk.Button(task_frame,text='stop', command=self.stop1)
@@ -154,6 +184,20 @@ class TasksManager:
         buttont43 = ttk.Button(task_frame,text='delete', command=self.delete4)
         buttont43.grid(row=3, column=6)
 
+        buttont51 = ttk.Button(task_frame,text='start',command=self.start5)
+        buttont51.grid(row=4,column=4)
+        buttont52 = ttk.Button(task_frame,text='stop', command=self.stop5)
+        buttont52.grid(row=4, column=5)
+        buttont53 = ttk.Button(task_frame,text='delete', command=self.delete5)
+        buttont53.grid(row=4, column=6)
+
+        buttont61 = ttk.Button(task_frame,text='start',command=self.start6)
+        buttont61.grid(row=5,column=4)
+        buttont62 = ttk.Button(task_frame,text='stop', command=self.stop6)
+        buttont62.grid(row=5, column=5)
+        buttont63 = ttk.Button(task_frame,text='delete', command=self.delete6)
+        buttont63.grid(row=5, column=6)
+
         task_button_frame = Frame(self.master)
         task_button_frame.pack(side=BOTTOM)
         Label(task_button_frame, text='内容:', width=12, height=2).pack(side=LEFT)
@@ -176,6 +220,10 @@ class TasksManager:
             self.stop3()
         if self.running4:
             self.stop4()
+        if self.running5:
+            self.stop5()
+        if self.running6:
+            self.stop6()
         tasks = get_all_available_tasks()
         current_tasks_num_to_do = len(tasks)
         tasks = adjust_tasks_by_pri(tasks)
@@ -187,6 +235,12 @@ class TasksManager:
         self.t3.set('')
         self.st4.set('')
         self.t4.set('')
+        self.st5.set('')
+        self.t5.set('')
+        self.st6.set('')
+        self.t6.set('')
+        self.t.set('')
+        self.pt.set('')
         if current_tasks_num_to_do > 0:
             self.st1.set(tasks[0][2])
             self.t1.set(self.seconds_to_strshow(tasks[0][5]))
@@ -199,6 +253,12 @@ class TasksManager:
         if current_tasks_num_to_do > 3:
             self.st4.set(tasks[3][2])
             self.t4.set(self.seconds_to_strshow(tasks[3][5]))
+        if current_tasks_num_to_do > 4:
+            self.st5.set(tasks[4][2])
+            self.t5.set(self.seconds_to_strshow(tasks[4][5]))
+        if current_tasks_num_to_do > 5:
+            self.st6.set(tasks[5][2])
+            self.t6.set(self.seconds_to_strshow(tasks[5][5]))
 
 
     def handle_good_bad_time(self,good):
@@ -364,6 +424,63 @@ class TasksManager:
         save_action_to_log(str(tasks[3][0]) + '; ' + tasks[3][2], '--任务删除')
         self.refresh_window()
 
+    def start5(self):
+        global tasks
+        if not self.running5:
+            self.running5 = True
+            self.time_update5()
+            self.handle_good_bad_time(True)
+            save_action_to_log(str(tasks[4][0]) + '; ' + tasks[4][2], '--任务开始')
+
+    def stop5(self):
+        global tasks
+        if self.running5:
+            self.master.after_cancel(self.timer5)
+            self.running5 = False
+            tasks[4] = list(tasks[4])
+            insert_item(tasks[4][0], '0', tasks[4][5], 0)
+            save_action_to_log(str(tasks[4][0]) + '; ' + tasks[4][2], '--任务停止')
+            self.handle_good_bad_time(False)
+
+    def delete5(self):
+        global tasks
+        if self.running5:
+            self.stop5()
+        tasks[4] = list(tasks[4])
+        end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        insert_item(tasks[4][0], end_time, tasks[4][5], 1)
+        save_action_to_log(str(tasks[4][0]) + '; ' + tasks[4][2], '--任务删除')
+        self.refresh_window()
+
+    def start6(self):
+        global tasks
+        if not self.running6:
+            self.running6 = True
+            self.time_update6()
+            self.handle_good_bad_time(True)
+            save_action_to_log(str(tasks[5][0]) + '; ' + tasks[5][2], '--任务开始')
+
+    def stop6(self):
+        global tasks
+        if self.running6:
+            self.master.after_cancel(self.timer6)
+            self.running6 = False
+            tasks[5] = list(tasks[5])
+            insert_item(tasks[5][0], '0', tasks[5][5], 0)
+            save_action_to_log(str(tasks[5][0]) + '; ' + tasks[5][2], '--任务停止')
+            self.handle_good_bad_time(False)
+
+    def delete6(self):
+        global tasks
+        if self.running6:
+            self.stop6()
+        tasks[5] = list(tasks[5])
+        end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        insert_item(tasks[5][0], end_time, tasks[5][5], 1)
+        save_action_to_log(str(tasks[5][0]) + '; ' + tasks[5][2], '--任务删除')
+        self.refresh_window()
+
+
     def add(self):
         global tasks
         start_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -398,7 +515,7 @@ if __name__ == '__main__':
     current_tasks_num_to_do = len(tasks)
     tasks = adjust_tasks_by_pri(tasks)
     root = Tk()
-    root.geometry('1100x250')
+    root.geometry('1100x300')
     root.title('任务管理')
     tm = TasksManager(root)
     root.mainloop()
