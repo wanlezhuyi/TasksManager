@@ -424,6 +424,13 @@ class TasksManager:
         save_action_to_log(str(tasks[3][0]) + '; ' + tasks[3][2], '--任务删除')
         self.refresh_window()
 
+    def time_update5(self):
+        global tasks
+        tasks[4] = list(tasks[4])
+        tasks[4][5] += 1
+        self.t5.set(self.seconds_to_strshow(tasks[4][5]))
+        self.timer5 = self.master.after(self.msec, self.time_update5)
+
     def start5(self):
         global tasks
         if not self.running5:
@@ -451,6 +458,13 @@ class TasksManager:
         insert_item(tasks[4][0], end_time, tasks[4][5], 1)
         save_action_to_log(str(tasks[4][0]) + '; ' + tasks[4][2], '--任务删除')
         self.refresh_window()
+
+    def time_update6(self):
+        global tasks
+        tasks[5] = list(tasks[5])
+        tasks[5][5] += 1
+        self.t6.set(self.seconds_to_strshow(tasks[5][5]))
+        self.timer6 = self.master.after(self.msec, self.time_update6)
 
     def start6(self):
         global tasks
