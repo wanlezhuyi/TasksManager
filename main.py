@@ -6,6 +6,7 @@ import threading
 import time
 from task import *
 from log import *
+import os
 
 
 current_tasks_num_to_do = 0
@@ -47,6 +48,12 @@ class TasksManager:
         self.good_time = 0
         self.dt_good_flag = True
         self.update_good_time()
+        save_something_to_log('工作开始了!')
+
+    def app_start(self):
+        self.bad_time = 0
+        self.dt_bad_flag = True
+        self.update_bad_time()
         save_something_to_log('今天开始了!')
 
     def initWidgets(self):
@@ -522,6 +529,16 @@ def adjust_tasks_by_pri(tasks):
         i += 1
     return tasks
 
+def quit_app_automatically():
+    while True:
+        time_now = int(time.localtime().tm_hour)
+        time.sleep(3600)
+        if time_now > 22:
+            save_something_to_log('忘记关app了!' )
+            break
+    os._exit(0)
+
+
 if __name__ == '__main__':
     global tasks
     init_table()
@@ -532,6 +549,9 @@ if __name__ == '__main__':
     root.geometry('1100x300')
     root.title('任务管理')
     tm = TasksManager(root)
+    t = threading.Thread(target=quit_app_automatically)
+    t.start()
+    tm.app_start()
     root.mainloop()
 
 
