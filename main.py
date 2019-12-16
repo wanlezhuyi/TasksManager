@@ -73,7 +73,7 @@ class TasksManager:
         self.entry_bad_time = ttk.Entry(self.date_frame, textvariable=self.bad_time_t, width=18,font=('StSong', 20, 'bold'),
                                          foreground='red')
         self.entry_bad_time.grid(row=0,column=4)
-        ttk.Button(self.date_frame, text='Go', command=self.dstart).grid(row=0,column=5)
+        #ttk.Button(self.date_frame, text='Go', command=self.dstart).grid(row=0,column=5)
 
 
         task_frame = Frame(self.master)
@@ -511,10 +511,16 @@ class TasksManager:
         self.refresh_window()
 
     def quit(self):
+        self.stop1()
+        self.stop2()
+        self.stop3()
+        self.stop4()
+        self.stop5()
+        self.stop6()
         save_something_to_log('今天有效工作了：' + self.seconds_to_strshow(self.good_time))
         save_something_to_log('今天有 ' + self.seconds_to_strshow(self.bad_time) + '不知道干啥了')
         save_something_to_log('今天结束了')
-        sys.exit(0)
+        os._exit(0)
 
 def adjust_tasks_by_pri(tasks):
     i = 0
@@ -536,6 +542,12 @@ def quit_app_automatically():
         if time_now > 22:
             save_something_to_log('忘记关app了!' )
             break
+    self.stop1()
+    self.stop2()
+    self.stop3()
+    self.stop4()
+    self.stop5()
+    self.stop6()
     os._exit(0)
 
 
