@@ -517,9 +517,26 @@ class TasksManager:
         self.stop4()
         self.stop5()
         self.stop6()
+        time.sleep(0.3)
         save_something_to_log('今天有效工作了：' + self.seconds_to_strshow(self.good_time))
         save_something_to_log('今天有 ' + self.seconds_to_strshow(self.bad_time) + '不知道干啥了')
         save_something_to_log('今天结束了')
+        os._exit(0)
+
+    def quit_app_automatically(self):
+        while True:
+            time_now = int(time.localtime().tm_hour)
+            if time_now > 21:
+                save_something_to_log('忘记关app了!')
+                break
+            time.sleep()
+        self.stop1()
+        self.stop2()
+        self.stop3()
+        self.stop4()
+        self.stop5()
+        self.stop6()
+        time.sleep(1)
         os._exit(0)
 
 def adjust_tasks_by_pri(tasks):
@@ -535,20 +552,7 @@ def adjust_tasks_by_pri(tasks):
         i += 1
     return tasks
 
-def quit_app_automatically():
-    while True:
-        time_now = int(time.localtime().tm_hour)
-        time.sleep(3600)
-        if time_now > 22:
-            save_something_to_log('忘记关app了!' )
-            break
-    self.stop1()
-    self.stop2()
-    self.stop3()
-    self.stop4()
-    self.stop5()
-    self.stop6()
-    os._exit(0)
+
 
 
 if __name__ == '__main__':
@@ -561,7 +565,7 @@ if __name__ == '__main__':
     root.geometry('1100x300')
     root.title('任务管理')
     tm = TasksManager(root)
-    t = threading.Thread(target=quit_app_automatically)
+    t = threading.Thread(target=tm.quit_app_automatically)
     t.start()
     tm.app_start()
     root.mainloop()
