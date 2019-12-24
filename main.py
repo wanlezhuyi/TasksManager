@@ -529,7 +529,7 @@ class TasksManager:
             if time_now > 21:
                 save_something_to_log('忘记关app了!')
                 break
-            time.sleep()
+            time.sleep(600)
         self.stop1()
         self.stop2()
         self.stop3()
@@ -551,9 +551,6 @@ def adjust_tasks_by_pri(tasks):
             j += 1
         i += 1
     return tasks
-
-
-
 
 if __name__ == '__main__':
     global tasks
